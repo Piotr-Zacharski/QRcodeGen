@@ -1,4 +1,7 @@
 from tkinter import *
+import qrcode
+from PIL import Image, ImageTk
+from resizeimage import resizeimage
 
 class Qr_Generator:
     def __init__(self, root):
@@ -40,15 +43,15 @@ class Qr_Generator:
         text_Name=Entry(det_Frame,
                     font=("Times New Roman", 15),
                         textvariable=self.var_name,
-                    bg='lightyellow', fg='black').place(x=200,y=100)
+                    bg='lightyellow', fg='black').place(x=200,y=60)
         text_Surname=Entry(det_Frame,
                     font=("Times New Roman", 15),
                            textvariable=self.var_surname,
-                    bg='lightyellow', fg='black').place(x=200,y=140)
+                    bg='lightyellow', fg='black').place(x=200,y=100)
         text_Email=Entry(det_Frame,
                     font=("Times New Roman", 15),
                          textvariable=self.var_email,
-                    bg='lightyellow', fg='black').place(x=200,y=180)
+                    bg='lightyellow', fg='black').place(x=200,y=140)
         btn_generate=Button(det_Frame,
                             text="Wygeneruj kod QR",
                             command=self.generate,
@@ -57,14 +60,16 @@ class Qr_Generator:
                             fg='white').place(x=90,y=230, width=300,height=30)
         btn_clear=Button(det_Frame,
                             text="Wyczyść dane",
+                            command=self.clear,
                             font=("Times New Roman", 18),
                             bg='#8e44ad',
                             fg='white').place(x=90,y=280, width=300,height=30)
-        self.msg="Wygenerowano kod QR"
+        self.msg=""
         self.lbl_msg = Label(det_Frame,
                     text=self.msg,
                     font=("Times New Roman", 20, 'bold'),
-                    bg='white', fg='green').place(x=0,y=320,relwidth=1)
+                    bg='white', fg='green')
+        self.lbl_msg.place(x=0,y=320,relwidth=1)
 
         qr_Frame=Frame(self.root,bd=2,relief=RIDGE,bg='white')
         qr_Frame.place(x=600,y=100,width=250,height=380)
@@ -75,10 +80,27 @@ class Qr_Generator:
 
         self.qr_code=Label(qr_Frame,text="Brak kodu QR", font=("Times New Roman",15),bd=1,relief=RIDGE)
         self.qr_code.place(x=35,y=100,width=180,height=180)
+    def clear(self):
+        self.var_name.set('')
+        self.var_surname.set('')
+        self.var_email.set('')
+        self.msg=""
+        self.lbl_msg.config(text=self.msg)
+        self.qr_code.config(image='')
     def generate(self):
-        if self.var_name.get()=='' or self.var_surname.get()=='' or self.var_email.get()==''
+        if self.var_name.get()==''or self.var_surname.get()==''or self.var_email.get()=='':
             self.msg="Uzupełnij puste pola!"
-            self.lbl_msg.config()
+            self.lbl_msg.config(text=self.msg,fg='red')
+        else:
+            qr_data=(f"Imię: {self.var_name.get()}\nNazwisko: {self.var_surname.get()}\nEmail: {self.var_email.get()}")
+            qr_code=qrcode.make(qr_data)
+            #print(qr_code)
+            qr_code=resizeimage.resize_cover(qr_code, [180,180])
+            qr_code.save("Codes/code"+str(self.var_name.get())+'.png')
+            self.im=ImageTk.PhotoImage(file="Codes/code"+str(self.var_name.get())+'.png')
+            self.qr_code.config(image=self.im)
+            self.msg="Wygenerowano kod QR"
+            self.lbl_msg.config(text=self.msg,fg='green')
 root=Tk()
 obj = Qr_Generator(root)
 root.mainloop()
