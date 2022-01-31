@@ -11,7 +11,7 @@ class Qr_Generator:
         self.root.resizable(False,False)
 
         title=Label(self.root,
-                    text="QR Code Generator",
+                    text="Generator kodów QR sieci WiFi",
                     font=("aakar, medium", 35),
                     bg='#8e44ad', fg='white').place(x=0,y=0,relwidth=1)
 
@@ -23,7 +23,7 @@ class Qr_Generator:
         det_Frame=Frame(self.root,bd=2,relief=RIDGE,bg='white')
         det_Frame.place(x=50,y=100,width=500,height=380)
         det_title=Label(det_Frame,
-                    text="Wprowadź dane",
+                    text="Wprowadź dane sieci WiFi",
                     font=("aakar, medium", 25),
                     bg='#8e44ad', fg='white').place(x=0,y=0,relwidth=1)
         title_Name=Label(det_Frame,
@@ -65,14 +65,14 @@ class Qr_Generator:
         self.lbl_msg.place(x=0,y=320,relwidth=1)
 
         qr_Frame=Frame(self.root,bd=2,relief=RIDGE,bg='white')
-        qr_Frame.place(x=600,y=100,width=250,height=380)
+        qr_Frame.place(x=590,y=100,width=300,height=380)
         qr_title=Label(qr_Frame,
-                    text="Twój kod QR",
+                    text="Kod QR sieci WiFi",
                     font=("Times New Roman", 25),
                     bg='#8e44ad', fg='white').place(x=0,y=0,relwidth=1)
 
         self.qr_code=Label(qr_Frame,text="Brak kodu QR", font=("Times New Roman",15),bd=1,relief=RIDGE)
-        self.qr_code.place(x=35,y=100,width=180,height=180)
+        self.qr_code.place(x=55,y=100,width=180,height=180)
     def clear(self):
         self.var_name.set('')
         self.var_surname.set('')
