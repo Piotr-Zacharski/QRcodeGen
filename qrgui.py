@@ -17,7 +17,6 @@ class Qr_Generator:
 
         self.var_name = StringVar()
         self.var_surname = StringVar()
-        self.var_email = StringVar()
 
         # WINDOW
 
@@ -28,17 +27,14 @@ class Qr_Generator:
                     font=("aakar, medium", 25),
                     bg='#8e44ad', fg='white').place(x=0,y=0,relwidth=1)
         title_Name=Label(det_Frame,
-                    text="Imię",
+                    text="SSID",
                     font=("aakar, medium", 15, 'bold'),
                     bg='white', fg='black').place(x=20,y=60)
         title_Surname=Label(det_Frame,
-                    text="Nazwisko",
+                    text="Hasło",
                     font=("aakar, medium", 15, 'bold'),
                     bg='white', fg='black').place(x=20,y=100)
-        title_Email=Label(det_Frame,
-                    text="Email",
-                    font=("aakar, medium", 15, 'bold'),
-                    bg='white', fg='black').place(x=20,y=140)
+
 
         text_Name=Entry(det_Frame,
                     font=("Times New Roman", 15),
@@ -48,10 +44,7 @@ class Qr_Generator:
                     font=("Times New Roman", 15),
                            textvariable=self.var_surname,
                     bg='lightyellow', fg='black').place(x=200,y=100)
-        text_Email=Entry(det_Frame,
-                    font=("Times New Roman", 15),
-                         textvariable=self.var_email,
-                    bg='lightyellow', fg='black').place(x=200,y=140)
+
         btn_generate=Button(det_Frame,
                             text="Wygeneruj kod QR",
                             command=self.generate,
@@ -83,16 +76,15 @@ class Qr_Generator:
     def clear(self):
         self.var_name.set('')
         self.var_surname.set('')
-        self.var_email.set('')
         self.msg=""
         self.lbl_msg.config(text=self.msg)
         self.qr_code.config(image='')
     def generate(self):
-        if self.var_name.get()==''or self.var_surname.get()==''or self.var_email.get()=='':
+        if self.var_name.get()==''or self.var_surname.get()=='':
             self.msg="Uzupełnij puste pola!"
             self.lbl_msg.config(text=self.msg,fg='red')
         else:
-            qr_data=(f"Imię: {self.var_name.get()}\nNazwisko: {self.var_surname.get()}\nEmail: {self.var_email.get()}")
+            qr_data=(f"Imię: {self.var_name.get()}\nNazwisko: {self.var_surname.get()}")
             qr_code=qrcode.make(qr_data)
             #print(qr_code)
             qr_code=resizeimage.resize_cover(qr_code, [180,180])
