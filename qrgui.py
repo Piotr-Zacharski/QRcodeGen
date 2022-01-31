@@ -84,7 +84,7 @@ class Qr_Generator:
             self.msg="Uzupełnij puste pola!"
             self.lbl_msg.config(text=self.msg,fg='red')
         else:
-            qr_data=(f"Imię: {self.var_name.get()}\nNazwisko: {self.var_surname.get()}")
+            qr_data=(f"SSID: {self.var_name.get()}\nHaslo: {self.var_surname.get()}")
             qr_code=qrcode.make(qr_data)
             #print(qr_code)
             qr_code=resizeimage.resize_cover(qr_code, [180,180])
